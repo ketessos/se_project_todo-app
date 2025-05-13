@@ -14,4 +14,7 @@ Give a description of the technologies and techniques used. Pictures, GIFs, or s
 
 This project is deployed on GitHub Pages:
 
-- ADD LINK HERE
+## 🚀 Live Demo
+
+[Click here to view the deployed project](https://ketessos.github.io/se_project_todo-app/)
+
