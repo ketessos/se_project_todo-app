@@ -31,10 +31,12 @@ class Todo {
       const todoNameEl = this._todoElement.querySelector(".todo__name");
       const todoDateEl = this._todoElement.querySelector(".todo__date");
   
-      todoNameEl.textContent = this._data.name;
-      todoDateEl.textContent = this._data.date
-        ? new Date(this._data.date).toLocaleDateString()
-        : "";
+    todoNameEl.textContent = this._data.name;
+
+    const date = new Date(this._data.date);
+    todoDateEl.textContent = this._data.date && !isNaN(date.getTime())
+    ? date.toLocaleDateString()
+    : "";
   
       this._generateCheckboxEl();
       this._setEventListeners();
