@@ -35,8 +35,8 @@ class Todo {
 
     const date = new Date(this._data.date);
     todoDateEl.textContent = this._data.date && !isNaN(date.getTime())
-    ? date.toLocaleDateString()
-    : "";
+? `Due: ${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
+: "";
   
       this._generateCheckboxEl();
       this._setEventListeners();
