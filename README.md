@@ -17,4 +17,3 @@ This project is deployed on GitHub Pages:
 ## 🚀 Live Demo
 
 [Click here to view the deployed project](https://ketessos.github.io/se_project_todo-app/)
-
