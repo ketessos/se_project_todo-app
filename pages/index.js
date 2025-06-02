@@ -14,6 +14,8 @@ const todosList = document.querySelector(".todos__list");
 
 const addTodoPopup = new PopupWithForm({ popupSelector: "#add-todo-popup", handleFormSubmit: () => {}, });
 
+addTodoPopup.addEventListeners();
+
 const generateTodo = (data) => {
   const todo = new Todo(data, "#todo-template");
   const todoElement = todo.getView();
@@ -43,10 +45,6 @@ addTodoButton.addEventListener("click", () => {
  addTodoPopup.open();
 });
 
-addTodoCloseBtn.addEventListener("click", () => {
-  closeModal(addTodoPopupEl);
-});
-
 addTodoForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const name = evt.target.name.value;
@@ -64,7 +62,7 @@ addTodoForm.addEventListener("submit", (evt) => {
   newTodoValidator.resetValidation();
   addTodoForm.reset();
 
-  closeModal(addTodoPopupEl);
+ addTodoPopup.close();
 });
 
 const newTodoValidator = new FormValidator(validationConfig, addTodoForm);
