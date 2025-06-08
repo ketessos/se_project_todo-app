@@ -10,12 +10,40 @@ import TodoCounter from "../components/TodoCounter.js";
 const addTodoButton = document.querySelector(".button_action_add");
 const addTodoPopupEl = document.querySelector("#add-todo-popup");
 const addTodoForm = addTodoPopupEl.querySelector(".popup__form");
-const todosList = document.querySelector(".todos__list");
 
 const counter = new TodoCounter(initialTodos, ".counter__text");
 
-const addTodoPopup = new PopupWithForm({ 
-  popupSelector: "#add-todo-popup", 
+function handleCheck(completed) {
+  counter.updateCompleted(completed);
+}
+
+function handleDelete(isCompleted) {
+  counter.updateTotal(false);
+  if (isCompleted) {
+    counter.updateCompleted(false);
+  }
+}
+
+const generateTodo = (data) => {
+  const todo = new Todo(data, "#todo-template", handleCheck, handleDelete);
+  return todo.getView();
+};
+
+const section = new Section({
+  items: initialTodos,
+  renderer: (item) => renderTodo(item),
+  containerSelector: ".todos__list",
+});
+
+function renderTodo(item) {
+  const todoElement = generateTodo(item);
+  section.addItem(todoElement);
+}
+
+section.renderItems();
+
+const addTodoPopup = new PopupWithForm({
+  popupSelector: "#add-todo-popup",
   handleFormSubmit: (inputValues) => {
     const name = inputValues.name;
     const dateInput = inputValues.date;
@@ -24,42 +52,21 @@ const addTodoPopup = new PopupWithForm({
     date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
 
     const id = uuidv4();
-
     const values = { name, date, id };
-    const todo = generateTodo(values);
-    section.addItem(todo);
+
+    renderTodo(values);
+    counter.updateTotal(true);
 
     newTodoValidator.resetValidation();
     addTodoForm.reset();
-
     addTodoPopup.close();
   },
 });
 
 addTodoPopup.setEventListeners();
 
-function handleCheck(completed) {
-  counter.updateCompleted(completed);
-}
-
-const generateTodo = (data) => {
-  const todo = new Todo(data, "#todo-template", handleCheck);
-  const todoElement = todo.getView();
-  return todoElement;
-};
-
-const section = new Section({
-  items: initialTodos,
-  renderer: (item) => {
-    const todoElement = generateTodo(item);
-    section.addItem(todoElement);
-  },
-  containerSelector: ".todos__list",
-});
-section.renderItems();
-
 addTodoButton.addEventListener("click", () => {
- addTodoPopup.open();
+  addTodoPopup.open();
 });
 
 const newTodoValidator = new FormValidator(validationConfig, addTodoForm);
